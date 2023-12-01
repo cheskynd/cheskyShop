@@ -14,6 +14,12 @@ public class Purchases {
     public Purchases() {
         // Default constructor
     }
+    public Purchases(int customerID,int shoeID, int size, int quantity, double totalPrice) {
+        this.customerID = customerID;
+        this.shoeID = shoeID;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+    }
 
     public Purchases(int purchaseID, int customerID, int shoeID, int electronicID, Date purchaseDate, int quantity,
                      double totalPrice) {

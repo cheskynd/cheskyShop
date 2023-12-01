@@ -9,6 +9,12 @@ public class Electronics {
     public Electronics() {
         // Default constructor
     }
+    
+    public Electronics(String brand, String model, double price) {
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
+    }
 
     public Electronics(int electronicID, String brand, String model, double price) {
         this.electronicID = electronicID;

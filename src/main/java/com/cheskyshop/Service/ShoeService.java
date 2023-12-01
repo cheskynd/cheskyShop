@@ -16,7 +16,7 @@ public class ShoeService {
         this.shoeDAO = shoeDAO;
     }
 
-    public boolean inserShoe(String brand, int size, double price) {
+    public boolean insertShoe(String brand, int size, double price) {
         Shoe shoe = new Shoe(brand, size, price);
         return shoeDAO.insertShoe(shoe);
     }

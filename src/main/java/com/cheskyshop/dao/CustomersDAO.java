@@ -3,7 +3,6 @@ import com.cheskyshop.models.Customers;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Connection;
 
 public class CustomersDAO {
     private Connection connection;
@@ -16,7 +15,7 @@ public class CustomersDAO {
     public boolean insertCustomer(Customers customer) {
         try {
             String query = "INSERT INTO customers (firstName, lastName, email, phone, address) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, customer.getFirstName());
             statement.setString(2, customer.getLastName());
             statement.setString(3, customer.getEmail());
@@ -24,11 +23,18 @@ public class CustomersDAO {
             statement.setString(5, customer.getAddress());
 
             int rowsInserted = statement.executeUpdate();
-            return rowsInserted > 0;
+            if (rowsInserted > 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedID = generatedKeys.getInt(1);
+                    customer.setCustomerID(generatedID);
+                }
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     // Retrieve operation by customerID
@@ -113,5 +119,28 @@ public class CustomersDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Customers getCustomerByEmail(String email) {
+        try {
+            String query = "SELECT * FROM customers WHERE email = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return new Customers(
+                        resultSet.getInt("customerID"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("address")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -120,4 +120,31 @@ public class PurchasesDAO {
             return false;
         }
     }
+
+
+    public List<Purchases> getAllPurchasesByCustomerID(int customerID) {
+        List<Purchases> customerPurchases = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM purchases WHERE customerID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, customerID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Purchases purchase = new Purchases(
+                        resultSet.getInt("purchaseID"),
+                        resultSet.getInt("customerID"),
+                        resultSet.getInt("shoeID"),
+                        resultSet.getInt("electronicID"),
+                        resultSet.getDate("purchaseDate"),
+                        resultSet.getInt("quantity"),
+                        resultSet.getDouble("totalPrice")
+                );
+                customerPurchases.add(purchase);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customerPurchases;
+    }
 }
