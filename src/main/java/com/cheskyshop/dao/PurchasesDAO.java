@@ -1,7 +1,5 @@
 package com.cheskyshop.dao;
-
 import com.cheskyshop.models.Purchases;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +10,7 @@ public class PurchasesDAO {
     public PurchasesDAO(Connection connection) {
         this.connection = connection;
     }
+
 
     // Insert operation
     public boolean insertPurchase(Purchases purchase) {

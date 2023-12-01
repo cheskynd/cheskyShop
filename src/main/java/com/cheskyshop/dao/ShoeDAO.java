@@ -1,5 +1,7 @@
 package com.cheskyshop.dao;
+
 import com.cheskyshop.models.Shoe;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +81,30 @@ public class ShoeDAO {
         return shoesList;
     }
 
+    // Retrieve operation for shoes by brand
+    public List<Shoe> getShoesByBrand(String brand) {
+        List<Shoe> shoesList = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM shoe WHERE brand = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, brand);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Shoe shoe = new Shoe(
+                        resultSet.getInt("shoeID"),
+                        resultSet.getInt("size"),
+                        resultSet.getString("brand"),
+                        resultSet.getDouble("price")
+                );
+                shoesList.add(shoe);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return shoesList;
+    }
+
     // Update operation
     public boolean updateShoe(Shoe shoe) {
         try {
@@ -110,5 +136,28 @@ public class ShoeDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public List<Shoe> getShoesBySize(int size) {
+        List<Shoe> shoesList = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM shoe WHERE size = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, size);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Shoe shoe = new Shoe(
+                        resultSet.getInt("shoeID"),
+                        resultSet.getInt("size"),
+                        resultSet.getString("brand"),
+                        resultSet.getDouble("price")
+                );
+                shoesList.add(shoe);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return shoesList;
     }
 }

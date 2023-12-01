@@ -1,9 +1,9 @@
 package com.cheskyshop.dao;
-
 import com.cheskyshop.models.Customers;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
 
 public class CustomersDAO {
     private Connection connection;
