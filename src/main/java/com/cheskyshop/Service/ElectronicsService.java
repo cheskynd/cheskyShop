@@ -3,7 +3,6 @@ import com.cheskyshop.dao.ElectronicsDAO;
 import com.cheskyshop.models.Electronics;   
 import com.cheskyshop.utils.ConnectionManager;  
 import java.util.List; 
-import java.sql.Connection;
 
 public class ElectronicsService {
 
